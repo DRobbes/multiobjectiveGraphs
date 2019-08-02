@@ -1,0 +1,4 @@
+name = "multiobjectiveGraphs"
+uuid = "4ca2b1b4-b505-11e9-3479-2971507377c3"
+authors = ["Didier ROBBES <didier.robbes@univ-nantes.fr>"]
+version = "0.1.0"
