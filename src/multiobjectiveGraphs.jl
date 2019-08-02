@@ -1,6 +1,7 @@
 module multiobjectiveGraphs
-export greet
 
+export greet
 greet() = println("######  module multiobjectiveGraphs ready   #######")
+
 
 end # module
