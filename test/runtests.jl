@@ -6,7 +6,12 @@ using multiobjectiveGraphs
 
 greet()
 
-# import Test
+#=
+import Pkg
+Pkg.add("Test")
+import Test
+=#
+
 using Test
 
 
