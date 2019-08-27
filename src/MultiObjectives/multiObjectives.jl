@@ -25,7 +25,7 @@ mutable struct multiobj <: genericMultiobj # Tobjval is union of all the Tobjval
 		return new{Tobjval}(1,ar)
 	end													##############
 	function multiobj( mo::multiobj ) 
-	 	return new( mo.nb, mo.objectives ) ## clone
+	 	return new( mo.nb, mo.objectives ) ## clone with same types and same values
 	end 												##############
 	function multiobj{Tobjval}(n::Number) where Tobjval<:Number
 			## create an multiobj with initialised array of summable objectives
