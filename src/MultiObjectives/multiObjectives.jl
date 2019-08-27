@@ -24,18 +24,18 @@ mutable struct multiobj # <: genericMultiobj # Tobjval is union of all the Tobjv
 		ar[1]=weightMinSum{Float64}()
 		return new(1,ar)
 	end													##############
-#=
+
 	function multiobj( mo::multiobj ) 
 	 	return new( mo.nb, mo.objectives ) ## clone with same types and same values
 	end 												##############
-	function multiobj{Tobjval}(n::Number) where Tobjval<:Number
+	function multiobj(n::Number) 
 			## create an multiobj with initialised array of summable objectives
 		nnn::Int8=convert(Int8,n)
 		ar= Vector{ genericWeightCategory }(undef,  nnn )  # suppress undef first parameter for Julia 0.63
-		for i::Int64 in 1:nnn 	ar[i]=weightMinSum{Tobjval}() 	end
-		return new{Tobjval}(nnn,ar)
+		for i::Int64 in 1:nnn 	ar[i]=weightMinSum{Float64}() 	end
+		return new(nnn,ar)
 	end													##############
-	function multiobj{Tobjval}(p::Number,q::Number,r::Number) where Tobjval<:Number
+	function multiobj(p::Number,q::Number,r::Number) 
 			## create an multiobj with initialised array of
 			## p summable objectives, q multiplicative and r bottleneck
 		ar=Vector{genericWeightCategory}(undef, p+q+r) # suppress undef first parameter for Julia 0.63
@@ -44,7 +44,7 @@ mutable struct multiobj # <: genericMultiobj # Tobjval is union of all the Tobjv
 		for i::Int64 in (p+q+1):(p+q+r) 	ar[i]=weightMinMax{Tobjval}() 	end
 		return new(p+q+r,ar)
 	end													##############
-	function multiobj{Tobjval}(mobjTypes::Vector{genericWeightCategory } ) where Tobjval<:Number
+	function multiobj(mobjTypes::Vector{genericWeightCategory } ) 
 			## create an multiobj with initialised types of weights (and matching default values)
 		nn = length(mobjTypes)
 		ar = Vector{genericWeightCategory}(undef,  nn ) # suppress undef first parameter for Julia 0.63
@@ -52,7 +52,7 @@ mutable struct multiobj # <: genericMultiobj # Tobjval is union of all the Tobjv
 		for i::Int64 in 1:nn 	ar[i]=mimic(mobjTypes[i], defaultValue( mobjTypes[i] ) ) 	end
 		return new{Tobjval}( nn, ar )
 	end	
-	function multiobj{Tobjval}(mobjTypes::Array{genericWeightCategory } ) where Tobjval<:Number
+	function multiobj(mobjTypes::Array{genericWeightCategory } )
 			## create an multiobj with initialised types of weights (and matching default values)
 		nn = length(mobjTypes)
 		ar = Vector{genericWeightCategory}(undef,  nn ) # suppress undef first parameter for Julia 0.63
@@ -60,8 +60,8 @@ mutable struct multiobj # <: genericMultiobj # Tobjval is union of all the Tobjv
 		for i::Int64 in 1:nn 	ar[i]=mimic(mobjTypes[i], defaultValue( mobjTypes[i] ) ) 	end
 		return new{Tobjval}( nn, ar )
 	end													##############
-	function multiobj{	Tobjval}(mobjTypes::Vector{ genericWeightCategory },
-								mobjVals::Vector{Tvals} )  where { Tobjval<:Number , Tvals <: Number }
+	function multiobj(mobjTypes::Vector{ genericWeightCategory },
+								mobjVals::Vector{Tvals} )  where  Tvals <: Number 
 			## create an multiobj with array of objectives types and initialised array of values of weights
 		nn = length(mobjVals)
 		ar = Vector{genericWeightCategory}(undef, nn )  # suppress undef first parameter for Julia 0.63
@@ -69,45 +69,44 @@ mutable struct multiobj # <: genericMultiobj # Tobjval is union of all the Tobjv
 		for i::Int64 in 1:nn 	ar[i]=mimic(mobjTypes[i], mobjVals[i] ) 	end
 		return new{Tobjval}( nn, ar )
 	end
-	function multiobj{	Tobjval}(a::multiobj{Tobjval},
-								mobjVals::Vector{Tvals} )  where { Tobjval<:Number , Tvals <: Number }
+	function multiobj(a::multiobj,
+								mobjVals::Vector{Tvals} )  where Tvals <: Number 
 			## create an multiobj with model of objectives types and initialised array of values of weights
 		nn = length(mobjVals)
-		ar = Vector{weightCategory{Tobjval}}(undef, nn )  # suppress undef first parameter for Julia 0.63
+		ar = Vector{genericWeightCategory}(undef, nn )  # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
 		for i::Int64 in 1:nn 	ar[i]=mimic(a.objectives[i], mobjVals[i] ) 	end
-		return new{Tobjval}( nn, ar )
+		return new( nn, ar )
 	end													##############
-	function multiobj{	Tobjval}(a::multiobj{Tobjval},
-								mobjVals::Array{Tvals} )  where { Tobjval<:Number , Tvals <: Number }
+	function multiobj(a::multiobj,
+								mobjVals::Array{Tvals} )  where Tvals <: Number 
 			## create an multiobj with model of objectives types and initialised array of values of weights
 		nn = length(mobjVals)
-		ar = Vector{weightCategory{Tobjval}}(undef, nn )  # suppress undef first parameter for Julia 0.63
+		ar = Vector{genericWeightCategory}(undef, nn )  # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
 		for i::Int64 in 1:nn 	ar[i]=mimic(a.objectives[i], mobjVals[i] ) 	end
-		return new{Tobjval}( nn, ar )
+		return new( nn, ar )
 	end													##############
-	function multiobj{Tobjval}(a::multiobj{Tobjval} , b::multiobj{Tobjval} ) where Tobjval<:Number
+	function multiobj(a::multiobj , b::multiobj )
 			## create an multiobj with combinations of weights in a && b
 		nn::Int8 = objLength(a)
-		ar= Vector{ weightCategory{Tobjval} }(undef,  nn )  # a && b MUST be the same size  # suppress undef first parameter for Julia 0.63
+		ar= Vector{ genericWeightCategory }(undef,  nn )  # a && b MUST be the same size  # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
 		for i::Int64 in 1:nn 	ar[i]=combine(a.objectives[i],b.objectives[i]) 	end
-		return new{Tobjval}(nn,ar)
+		return new(nn,ar)
 	end
-	=#
 end
 
 #=
 ######### accessor ##############
- function getObj( mo::multiobj{Tobjval}, numobj::Integer ) where Tobjval<:Number
+ function getObj( mo::multiobj, numobj::Integer ) where Tobjval<:Number
    return mo.objectives[numobj]
  end
- function setObj!( mo::multiobj{Tobjval}, numobj::Integer, objvalue) where Tobjval<:Number
+ function setObj!( mo::multiobj, numobj::Integer, objvalue) where Tobjval<:Number
    old = mo.objectives[numobj] ; mo.objectives[numobj] = objvalue ; return old
  end
 ######### displaying a multi-objective ############
- function summarize( mo::multiobj{Tobjval} ; log=stdout) where Tobjval<:Number
+ function summarize( mo::multiobj ; log=stdout) where Tobjval<:Number
  	print(log,"[ ")
  	 for obj in mo.objectives
  	 	print(log,obj.value," ")
@@ -133,44 +132,44 @@ end
  
  #=
 ############## initialisation values of given types
-	function defaultValue( mo::multiobj{Tobjval} ) where  Tobjval<:Number
-		return multiobj{Tobjval}( mo.objectives )
+	function defaultValue( mo::multiobj ) where  Tobjval<:Number
+		return multiobj( mo.objectives )
 	end
 ############## initialisation values of given types
 	function defaultValue( objTypes::Vector{ weightCategory{Tobjval} } ) where  Tobjval<:Number
-		return multiobj{Tobjval}( objTypes )
+		return multiobj( objTypes )
 	end
 ############## same types with default values ( same than preceding )
 	function mimic( objTypes::Vector{ weightCategory{Tobjval} } ) where  Tobjval <: Number
-	 	return multiobj{Tobjval}( objTypes )
+	 	return multiobj( objTypes )
 	end
 ############## same types with other values
 	function mimic( objTypes::Vector{ weightCategory{Tobjval} },
 								objVals::Vector{Tvals} ) where   { Tobjval <: Number, Tvals <: Number }
-	 	return multiobj{Tobjval}( objTypes, objVals )
+	 	return multiobj( objTypes, objVals )
 	end
 	
 	function mimic( objTypes::Vector{ weightCategory{Tobjval} },
 								objVals::Array{Tvals} ) where   { Tobjval <: Number, Tvals <: Number }
-	 	return multiobj{Tobjval}( objTypes, objVals )
+	 	return multiobj( objTypes, objVals )
 	end
 ############## same types with other values
-	function mimic( objTypes::multiobj{Tobjval},
+	function mimic( objTypes::multiobj,
 									objVals::Vector{Tvals} ) where   { Tobjval <: Number, Tvals <: Number }
-		 return multiobj{Tobjval}( objTypes, objVals )
+		 return multiobj( objTypes, objVals )
 	end
 ############## clone
-	function mimic( mo::multiobj{Tobjval} ) where  Tobjval <: Number
-	 	return multiobj{Tobjval}( mo )
+	function mimic( mo::multiobj ) where  Tobjval <: Number
+	 	return multiobj( mo )
 	end
 	
 ############# combination ##########
-function combine(a::multiobj{Tobjval}, b::multiobj{Tobjval} )::multiobj{Tobjval} where Tobjval<:Number
- return multiobj{Tobjval}(a , b )
+function combine(a::multiobj, b::multiobj )::multiobj where Tobjval<:Number
+ return multiobj(a , b )
 end
 
 ############# lexicographic order ##########
-function lexicoBetter(a::multiobj{Tobjval}, b::multiobj{Tobjval} )::Bool  where Tobjval<:Number
+function lexicoBetter(a::multiobj, b::multiobj )::Bool  where Tobjval<:Number
 	num::Int8 = 1 ; maxNum::Int8 = objLength(a)
 	while num < maxNum && compare(a.objectives[num], b.objectives[num])==(true,true) ## lazy evaluation not needed here
 		num += 1
@@ -178,7 +177,7 @@ function lexicoBetter(a::multiobj{Tobjval}, b::multiobj{Tobjval} )::Bool  where 
 	return compare(a.objectives[num], b.objectives[num])[1]
 end
 ############# lexicographic order beginning with k-th  ##########
-function lexicoBetter(a::multiobj{Tobjval}, b::multiobj{Tobjval}, k::Int8 )::Bool  where Tobjval<:Number
+function lexicoBetter(a::multiobj, b::multiobj, k::Int8 )::Bool  where Tobjval<:Number
 	cntr::Int8 = 1 ; maxNum::Int8 = objLength(a) ; num::Int8 =k
 	while cntr < maxNum && compare(a.objectives[num], b.objectives[num])==(true,true) ## lazy evaluation not needed here
 		cntr += 1 ; num = (num % maxNum) + 1 ; 
@@ -186,7 +185,7 @@ function lexicoBetter(a::multiobj{Tobjval}, b::multiobj{Tobjval}, k::Int8 )::Boo
 	return compare(a.objectives[num], b.objectives[num])[1]
 end
 ############# dominance ##########
-function compare(a::multiobj{Tobjval}, b::multiobj{Tobjval} )::Tuple{Bool,Bool}  where Tobjval<:Number
+function compare(a::multiobj, b::multiobj )::Tuple{Bool,Bool}  where Tobjval<:Number
               ## returns (a<=b, b<=a) ; hence returns  (true,true) if  a == b
  			i::Int8=1; aisbetter::Bool=true  # better and worse must be seen here as large ( _ or equal)
  			while i <= a.nb &&  aisbetter                                # a.nb is assumed == b.nb
@@ -201,25 +200,25 @@ function compare(a::multiobj{Tobjval}, b::multiobj{Tobjval} )::Tuple{Bool,Bool} 
  			return  aisbetter, aisworse
 end
 
-function dominates(a::multiobj{Tobjval}, b::multiobj{Tobjval} )::Bool where Tobjval<:Number
+function dominates(a::multiobj, b::multiobj )::Bool where Tobjval<:Number
   cp = compare(a,b)
   return cp[1]
 end
 
-function dominatesStrictly(a::multiobj{Tobjval}, b::multiobj{Tobjval} )::Bool where Tobjval<:Number
+function dominatesStrictly(a::multiobj, b::multiobj )::Bool where Tobjval<:Number
   cp = compare(a,b)
   return cp[1] && ! cp[2]
 end
 
 ######### specific dominance (one objective only -> Dijsktra) ###########
-function dominates(a::multiobj{Tobjval}, b::multiobj{Tobjval}, objnum::Int8 )::Bool where Tobjval<:Number
+function dominates(a::multiobj, b::multiobj, objnum::Int8 )::Bool where Tobjval<:Number
   return compare(a.objectives[objnum],  b.objectives[objnum])[1]
 end
 
 
 ############## some well known functions redefined      ##########  !!!! not for Julia 1.0
-#	function size(mo::multiobj{Tobjval})::Int8  where Tobjval<:Number return mo.nb end
-function objLength(mo::multiobj{Tobjval})::Int8  where Tobjval<:Number return mo.nb end
+#	function size(mo::multiobj)::Int8  where Tobjval<:Number return mo.nb end
+function objLength(mo::multiobj)::Int8  where Tobjval<:Number return mo.nb end
 
 
 
@@ -228,7 +227,7 @@ function objLength(mo::multiobj{Tobjval})::Int8  where Tobjval<:Number return mo
 
 
 
-function unittest(mo::multiobj{Tobjval} ) where Tobjval<:Number
+function unittest(mo::multiobj ) where Tobjval<:Number
 
 	x = weightMinSum{Int16}()     		; println("x=weightMinSum{Int64}()=",x)
 	y = weightMinSum{Int16}(5)     	; println("y=weightMinSum{Int64}(5)=",y)
