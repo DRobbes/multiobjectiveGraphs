@@ -12,8 +12,8 @@ export lexicoBetter, dominates, dominatesStrictly, objLength
 
 #### note : all objectives share the same type of value ##################
 ###  (upgrade needed to handle different types -> Tuple instead of Array ? ) #
-
-mutable struct multiobj{Tobjval}  # Tobjval is union of all the Tobjvals of the objectives
+abstract genericMultiobj end
+mutable struct multiobj{Tobjval} <: genericMultiobj # Tobjval is union of all the Tobjvals of the objectives
 	nb::Int8;  ######### number of objectives is (severely) limited to 127
 	objectives::Vector{ genericWeightCategory}
 	############## constructors
