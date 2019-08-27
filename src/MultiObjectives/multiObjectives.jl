@@ -12,18 +12,19 @@ export lexicoBetter, dominates, dominatesStrictly, objLength
 
 #### note : all objectives share the same type of value ##################
 ###  (upgrade needed to handle different types -> Tuple instead of Array ? ) #
-abstract type genericMultiobj end
+# abstract type genericMultiobj end
 
-mutable struct multiobj <: genericMultiobj # Tobjval is union of all the Tobjvals of the objectives
+mutable struct multiobj # <: genericMultiobj # Tobjval is union of all the Tobjvals of the objectives
 	nb::Int8;  ######### number of objectives is (severely) limited to 127
 	objectives::Vector{ genericWeightCategory}
 	############## constructors
 	function multiobj() 
 			## create an monoobj with initialised array of  1 summable objective
 		ar= Vector{ genericWeightCategory }(undef, 1)    # Vector{ weightMinSum{Tobjval} }( 1)  for Julia 0.63
-		ar[1]=weightMinSum{Tobjval}()
-		return new{Tobjval}(1,ar)
+		ar[1]=weightMinSum{Float64}()
+		return new(1,ar)
 	end													##############
+#=
 	function multiobj( mo::multiobj ) 
 	 	return new( mo.nb, mo.objectives ) ## clone with same types and same values
 	end 												##############
@@ -94,6 +95,7 @@ mutable struct multiobj <: genericMultiobj # Tobjval is union of all the Tobjval
 		for i::Int64 in 1:nn 	ar[i]=combine(a.objectives[i],b.objectives[i]) 	end
 		return new{Tobjval}(nn,ar)
 	end
+	=#
 end
 ######### accessor ##############
  function getObj( mo::multiobj{Tobjval}, numobj::Integer ) where Tobjval<:Number
