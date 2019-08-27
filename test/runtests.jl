@@ -3,13 +3,13 @@ println("=========== testing multiobjectiveGraphs package =============")
 
 import multiobjectiveGraphs
 using multiobjectiveGraphs
-#=
-import Test
-using Test
-=#
 
-import Base.Test
-using Base.Test 
+greet()
+
+# import Test
+using Test
+
+
 
 #=
 
