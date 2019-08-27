@@ -3,10 +3,10 @@ println("=========== testing multiobjectiveGraphs package =============")
 
 import multiobjectiveGraphs
 using multiobjectiveGraphs
-
+#=
 import Test
 using Test
-
+=#
 #=
 
 @testset "priority lists" begin
