@@ -1,5 +1,5 @@
 #### for module multiobjectiveGraphs ####
-export weightCategory, objTypes # abstract type and list of concrete
+export genericWeightCategory, weightCategory, objTypes # abstract type and list of concrete
 # 6 predefined types
 export weightMinSum, weightMinProduct, weightMinMax, weightMaxSum, weightMaxProduct, weightMaxMin
 # Programming Interface
