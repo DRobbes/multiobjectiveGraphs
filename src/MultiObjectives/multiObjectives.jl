@@ -139,7 +139,8 @@ end
 ############## initialisation values of given types
 	function defaultValue( objTypes::Vector{ weightCategory{Tobjval} } ) where  Tobjval<:Number
 		return multiobj{Tobjval}( objTypes )
-	end############## same types with default values ( same than preceding )
+	end
+############## same types with default values ( same than preceding )
 	function mimic( objTypes::Vector{ weightCategory{Tobjval} } ) where  Tobjval <: Number
 	 	return multiobj{Tobjval}( objTypes )
 	end
