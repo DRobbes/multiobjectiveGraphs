@@ -1,5 +1,5 @@
 
-# include("objectives.jl")
+ include("objectives.jl")
 
 #### for module MOGraphs ####
 export  multiobj, getObj, setObj!, summarize 
@@ -20,7 +20,7 @@ mutable struct multiobj <: genericMultiobj # Tobjval is union of all the Tobjval
 	############## constructors
 	function multiobj() 
 			## create an monoobj with initialised array of  1 summable objective
-		ar= Vector{ weightMinSum{Tobjval} }(undef, 1)    # Vector{ weightMinSum{Tobjval} }( 1)  for Julia 0.63
+		ar= Vector{ genericWeightCategory }(undef, 1)    # Vector{ weightMinSum{Tobjval} }( 1)  for Julia 0.63
 		ar[1]=weightMinSum{Tobjval}()
 		return new{Tobjval}(1,ar)
 	end													##############
@@ -30,40 +30,40 @@ mutable struct multiobj <: genericMultiobj # Tobjval is union of all the Tobjval
 	function multiobj{Tobjval}(n::Number) where Tobjval<:Number
 			## create an multiobj with initialised array of summable objectives
 		nnn::Int8=convert(Int8,n)
-		ar= Vector{ weightMinSum{Tobjval} }(undef,  nnn )  # suppress undef first parameter for Julia 0.63
+		ar= Vector{ genericWeightCategory }(undef,  nnn )  # suppress undef first parameter for Julia 0.63
 		for i::Int64 in 1:nnn 	ar[i]=weightMinSum{Tobjval}() 	end
 		return new{Tobjval}(nnn,ar)
 	end													##############
 	function multiobj{Tobjval}(p::Number,q::Number,r::Number) where Tobjval<:Number
 			## create an multiobj with initialised array of
 			## p summable objectives, q multiplicative and r bottleneck
-		ar=Vector{weightCategory{Tobjval}}(undef, p+q+r) # suppress undef first parameter for Julia 0.63
+		ar=Vector{genericWeightCategory}(undef, p+q+r) # suppress undef first parameter for Julia 0.63
 		for i::Int64 in 1:p 	ar[i]=weightMinSum{Tobjval}() 	end
 		for i::Int64 in (p+1):(p+q) 	ar[i]=weightMinProduct{Tobjval}() 	end
 		for i::Int64 in (p+q+1):(p+q+r) 	ar[i]=weightMinMax{Tobjval}() 	end
 		return new(p+q+r,ar)
 	end													##############
-	function multiobj{Tobjval}(mobjTypes::Vector{weightCategory{Tobjval} } ) where Tobjval<:Number
+	function multiobj{Tobjval}(mobjTypes::Vector{genericWeightCategory } ) where Tobjval<:Number
 			## create an multiobj with initialised types of weights (and matching default values)
 		nn = length(mobjTypes)
-		ar = Vector{weightCategory{Tobjval}}(undef,  nn ) # suppress undef first parameter for Julia 0.63
+		ar = Vector{genericWeightCategory}(undef,  nn ) # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
 		for i::Int64 in 1:nn 	ar[i]=mimic(mobjTypes[i], defaultValue( mobjTypes[i] ) ) 	end
 		return new{Tobjval}( nn, ar )
 	end	
-	function multiobj{Tobjval}(mobjTypes::Array{weightCategory{Tobjval} } ) where Tobjval<:Number
+	function multiobj{Tobjval}(mobjTypes::Array{genericWeightCategory } ) where Tobjval<:Number
 			## create an multiobj with initialised types of weights (and matching default values)
 		nn = length(mobjTypes)
-		ar = Vector{weightCategory{Tobjval}}(undef,  nn ) # suppress undef first parameter for Julia 0.63
+		ar = Vector{genericWeightCategory}(undef,  nn ) # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
 		for i::Int64 in 1:nn 	ar[i]=mimic(mobjTypes[i], defaultValue( mobjTypes[i] ) ) 	end
 		return new{Tobjval}( nn, ar )
 	end													##############
-	function multiobj{	Tobjval}(mobjTypes::Vector{ weightCategory{Tobjval} },
+	function multiobj{	Tobjval}(mobjTypes::Vector{ genericWeightCategory },
 								mobjVals::Vector{Tvals} )  where { Tobjval<:Number , Tvals <: Number }
 			## create an multiobj with array of objectives types and initialised array of values of weights
 		nn = length(mobjVals)
-		ar = Vector{weightCategory{Tobjval}}(undef, nn )  # suppress undef first parameter for Julia 0.63
+		ar = Vector{genericWeightCategory}(undef, nn )  # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
 		for i::Int64 in 1:nn 	ar[i]=mimic(mobjTypes[i], mobjVals[i] ) 	end
 		return new{Tobjval}( nn, ar )

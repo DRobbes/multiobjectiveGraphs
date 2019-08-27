@@ -1,6 +1,6 @@
 module multiobjectiveGraphs
 
-include("MultiObjectives/objectives.jl")
+# include("MultiObjectives/objectives.jl")
 include("MultiObjectives/multiObjectives.jl")
 
 
