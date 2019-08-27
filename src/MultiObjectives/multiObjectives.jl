@@ -3,7 +3,7 @@
 
 #### for module MOGraphs ####
 export  multiobj # , getObj, setObj!, summarize 
-# export descr, defaultValue, mimic, combine # already in objectives.jl
+export descr   # , defaultValue, mimic, combine # already in objectives.jl
 # export lexicoBetter, dominates, dominatesStrictly, objLength
 
 ##############################################################
