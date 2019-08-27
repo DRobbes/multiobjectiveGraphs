@@ -149,6 +149,7 @@ end
 								objVals::Vector{Tvals} ) where   { Tobjval <: Number, Tvals <: Number }
 	 	return multiobj{Tobjval}( objTypes, objVals )
 	end
+	
 	function mimic( objTypes::Vector{ weightCategory{Tobjval} },
 								objVals::Array{Tvals} ) where   { Tobjval <: Number, Tvals <: Number }
 	 	return multiobj{Tobjval}( objTypes, objVals )
@@ -162,6 +163,7 @@ end
 	function mimic( mo::multiobj{Tobjval} ) where  Tobjval <: Number
 	 	return multiobj{Tobjval}( mo )
 	end
+	
 ############# combination ##########
 function combine(a::multiobj{Tobjval}, b::multiobj{Tobjval} )::multiobj{Tobjval} where Tobjval<:Number
  return multiobj{Tobjval}(a , b )
@@ -225,6 +227,7 @@ function objLength(mo::multiobj{Tobjval})::Int8  where Tobjval<:Number return mo
 ############ unit tests ###################
 
 
+
 function unittest(mo::multiobj{Tobjval} ) where Tobjval<:Number
 
 	x = weightMinSum{Int16}()     		; println("x=weightMinSum{Int64}()=",x)
@@ -245,6 +248,7 @@ function unittest(mo::multiobj{Tobjval} ) where Tobjval<:Number
 	lb = lexicoBetter(multiobj{Float64}(multiobj{Float64}(2,0,0),[105,13]),
 						multiobj{Float64}(multiobj{Float64}(2,0,0),[30,19]) )
 				 	println("comb=leico([105,13],[30,19])=",lb )
+				 	
 	lb = lexicoBetter(multiobj{Float64}(multiobj{Float64}(2,0,0),[30,19]),
 						multiobj{Float64}(multiobj{Float64}(2,0,0),[105,13]) )
 	 				println("comb=leico([30,19],[105,13])=",lb )
