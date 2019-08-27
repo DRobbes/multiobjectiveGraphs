@@ -3,7 +3,7 @@
 
 #### for module MOGraphs ####
 export  multiobj # , getObj, setObj!, summarize 
-export descr   # , defaultValue, mimic, combine # already in objectives.jl
+#export descr, defaultValue, mimic, combine # already in objectives.jl
 # export lexicoBetter, dominates, dominatesStrictly, objLength
 
 ##############################################################
@@ -28,11 +28,11 @@ mutable struct multiobj # <: genericMultiobj # Tobjval is union of all the Tobjv
 	function multiobj( mo::multiobj ) 
 	 	return new( mo.nb, mo.objectives ) ## clone with same types and same values
 	end 												##############
-	function multiobj(n::Number) 
+	function multiobj(n::Number; typeofobjectives=weightMinSum{Float64}) 
 			## create an multiobj with initialised array of summable objectives
 		nnn::Int8=convert(Int8,n)
 		ar= Vector{ genericWeightCategory }(undef,  nnn )  # suppress undef first parameter for Julia 0.63
-		for i::Int64 in 1:nnn 	ar[i]=weightMinSum{Float64}() 	end
+		for i::Int64 in 1:nnn 	ar[i]=typeofobjectives() 	end
 		return new(nnn,ar)
 	end													##############
 	function multiobj(p::Number,q::Number,r::Number) 

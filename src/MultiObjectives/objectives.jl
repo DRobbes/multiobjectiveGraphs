@@ -3,7 +3,7 @@ export genericWeightCategory, weightCategory, objTypes # abstract type and list 
 # 6 predefined types
 export weightMinSum, weightMinProduct, weightMinMax, weightMaxSum, weightMaxProduct, weightMaxMin
 # Programming Interface
-export typeCode, defaultValue, mimic, compare, combine # , descr
+export typeCode, defaultValue, mimic, compare, combine , descr
 
 
 ##############################################################
