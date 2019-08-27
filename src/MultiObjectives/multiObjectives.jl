@@ -1,5 +1,5 @@
 
-include("objectives.jl")
+# include("objectives.jl")
 
 #### for module MOGraphs ####
 export  multiobj, getObj, setObj!, summarize 
@@ -42,47 +42,47 @@ mutable struct multiobj{Tobjval} <: genericMultiobj # Tobjval is union of all th
 		for i::Int64 in (p+q+1):(p+q+r) 	ar[i]=weightMinMax{Tobjval}() 	end
 		return new(p+q+r,ar)
 	end													##############
-	function multiobj{Tobjval}(objTypes::Vector{weightCategory{Tobjval} } ) where Tobjval<:Number
+	function multiobj{Tobjval}(mobjTypes::Vector{weightCategory{Tobjval} } ) where Tobjval<:Number
 			## create an multiobj with initialised types of weights (and matching default values)
-		nn = length(objTypes)
+		nn = length(mobjTypes)
 		ar = Vector{weightCategory{Tobjval}}(undef,  nn ) # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
-		for i::Int64 in 1:nn 	ar[i]=mimic(objTypes[i], defaultValue( objTypes[i] ) ) 	end
+		for i::Int64 in 1:nn 	ar[i]=mimic(mobjTypes[i], defaultValue( mobjTypes[i] ) ) 	end
 		return new{Tobjval}( nn, ar )
 	end	
-	function multiobj{Tobjval}(objTypes::Array{weightCategory{Tobjval} } ) where Tobjval<:Number
+	function multiobj{Tobjval}(mobjTypes::Array{weightCategory{Tobjval} } ) where Tobjval<:Number
 			## create an multiobj with initialised types of weights (and matching default values)
-		nn = length(objTypes)
+		nn = length(mobjTypes)
 		ar = Vector{weightCategory{Tobjval}}(undef,  nn ) # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
-		for i::Int64 in 1:nn 	ar[i]=mimic(objTypes[i], defaultValue( objTypes[i] ) ) 	end
+		for i::Int64 in 1:nn 	ar[i]=mimic(mobjTypes[i], defaultValue( mobjTypes[i] ) ) 	end
 		return new{Tobjval}( nn, ar )
 	end													##############
-	function multiobj{	Tobjval}(objTypes::Vector{ weightCategory{Tobjval} },
-								objVals::Vector{Tvals} )  where { Tobjval<:Number , Tvals <: Number }
+	function multiobj{	Tobjval}(mobjTypes::Vector{ weightCategory{Tobjval} },
+								mobjVals::Vector{Tvals} )  where { Tobjval<:Number , Tvals <: Number }
 			## create an multiobj with array of objectives types and initialised array of values of weights
-		nn = length(objVals)
+		nn = length(mobjVals)
 		ar = Vector{weightCategory{Tobjval}}(undef, nn )  # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
-		for i::Int64 in 1:nn 	ar[i]=mimic(objTypes[i], objVals[i] ) 	end
+		for i::Int64 in 1:nn 	ar[i]=mimic(mobjTypes[i], mobjVals[i] ) 	end
 		return new{Tobjval}( nn, ar )
 	end
 	function multiobj{	Tobjval}(a::multiobj{Tobjval},
-								objVals::Vector{Tvals} )  where { Tobjval<:Number , Tvals <: Number }
+								mobjVals::Vector{Tvals} )  where { Tobjval<:Number , Tvals <: Number }
 			## create an multiobj with model of objectives types and initialised array of values of weights
-		nn = length(objVals)
+		nn = length(mobjVals)
 		ar = Vector{weightCategory{Tobjval}}(undef, nn )  # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
-		for i::Int64 in 1:nn 	ar[i]=mimic(a.objectives[i], objVals[i] ) 	end
+		for i::Int64 in 1:nn 	ar[i]=mimic(a.objectives[i], mobjVals[i] ) 	end
 		return new{Tobjval}( nn, ar )
 	end													##############
 	function multiobj{	Tobjval}(a::multiobj{Tobjval},
-								objVals::Array{Tvals} )  where { Tobjval<:Number , Tvals <: Number }
+								mobjVals::Array{Tvals} )  where { Tobjval<:Number , Tvals <: Number }
 			## create an multiobj with model of objectives types and initialised array of values of weights
-		nn = length(objVals)
+		nn = length(mobjVals)
 		ar = Vector{weightCategory{Tobjval}}(undef, nn )  # suppress undef first parameter for Julia 0.63
 		   # with the same types in the same indices
-		for i::Int64 in 1:nn 	ar[i]=mimic(a.objectives[i], objVals[i] ) 	end
+		for i::Int64 in 1:nn 	ar[i]=mimic(a.objectives[i], mobjVals[i] ) 	end
 		return new{Tobjval}( nn, ar )
 	end													##############
 	function multiobj{Tobjval}(a::multiobj{Tobjval} , b::multiobj{Tobjval} ) where Tobjval<:Number
