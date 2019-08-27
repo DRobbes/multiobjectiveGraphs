@@ -2,9 +2,9 @@
  include("objectives.jl")
 
 #### for module MOGraphs ####
-export  multiobj, getObj, setObj!, summarize 
+export  multiobj # , getObj, setObj!, summarize 
 # export descr, defaultValue, mimic, combine # already in objectives.jl
-export lexicoBetter, dominates, dominatesStrictly, objLength
+# export lexicoBetter, dominates, dominatesStrictly, objLength
 
 ##############################################################
 #################### generic type for multi-objective values     #########
@@ -97,6 +97,8 @@ mutable struct multiobj # <: genericMultiobj # Tobjval is union of all the Tobjv
 	end
 	=#
 end
+
+#=
 ######### accessor ##############
  function getObj( mo::multiobj{Tobjval}, numobj::Integer ) where Tobjval<:Number
    return mo.objectives[numobj]
@@ -244,3 +246,4 @@ function unittest(mo::multiobj{Tobjval} ) where Tobjval<:Number
 
 
 end
+=#
