@@ -114,8 +114,10 @@ end
  	 end
  	 print(log,"]");  #### be carefull using it : no line break here
  end
+ =#
+ 
  ######### description of a multi-objective ############
- function descr( mo::multiobj{Tobjval} ; withName=true ) where Tobjval<:Number
+ function descr( mo::multiobj ; withName=true ) 
   txt::String="[ "
   if withName
  	 txt*=descr(mo.objectives[1])
@@ -128,6 +130,8 @@ end
   end
   return txt
  end
+ 
+ #=
 ############## initialisation values of given types
 	function defaultValue( mo::multiobj{Tobjval} ) where  Tobjval<:Number
 		return multiobj{Tobjval}( mo.objectives )
