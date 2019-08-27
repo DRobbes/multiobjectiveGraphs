@@ -1,4 +1,4 @@
-#### for module MOGraphs ####
+#### for module multiobjectiveGraphs ####
 export weightCategory, objTypes # abstract type and list of concrete
 # 6 predefined types
 export weightMinSum, weightMinProduct, weightMinMax, weightMaxSum, weightMaxProduct, weightMaxMin
@@ -9,27 +9,27 @@ export typeCode, descr, defaultValue, mimic, compare, combine
 ##############################################################
 #################### generic type for one objective value ####
 ##############################################################
-abstract type weightCategory{Tobjval} end
+abstract type genericWeightCategory end
+abstract type weightCategory{Tobjval} <: genericWeightCategory end
 
 
 ############################################################
 # each concrete weightCategory must implement
-# 	... typeCode ... wich returns an small positive integer
+# 	... typeCode ... wich returns a small positive integer
 # 		specific to this weightCategory and so is unique
 # 			see function objTypes for existing values
 # ... descr ... wich return the description of the objective type and value
-# 	... defaultValue ... wich returns the base value for combining
+# 	... defaultValue ... wich returns the base value for combining.  ###### really needed  ?? -> change initializations !!! , a arbitary base value may suffice
 # 		e.g. 0 for sum, 1 for product
-# 	... mimic ... wich yields a new element similar to its first parameter with optionnal other parameters
-# 	... compare(a,b) ... whose result is a couple of booleans (a is better than b, b is better than a)
-#      Tobjval must implement <= as a total order (especially  : forall (a,b) if a<=b & b<=a then a=b)
+# 	... mimic ... wich yields a new element similar to its first parameter with or without value (2 functions)
+# 	... compare(a,b) ... whose result is a couple of booleans (a is better than b or equals b, b is better than a or equals a)
+#      compare a total order (especially  : forall (a,b) if a<=b & b<=a then a=b)
 # 	... combine ... to create a new weight from two such weights
 # 		that can be a sum, a product, a min, a max or anything
 # 		that is associative ( combine(x,combine(y,z)) == combine(combine(x,y),z) )
-#      and monotonous ( i.e. compare(x, combine(x,y)) must always yield (true, _) )
+#      and monotonous ( i.e. compare(x, combine(x,y)) must always yield (true, _) ) ### this constraint can be relaxed with appropriate detection in algorithms
 #      in order to ensure there is no "negative weight" circuit in the graph
-# don't forget to add each new type to the array
-# 	in function objTypes
+# don't forget to add each new type to the array (by redefining the function objTypes ???). ### must be tested
 ############################################################
 
 #############################################################
