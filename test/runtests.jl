@@ -4,8 +4,6 @@ println("=========== testing multiobjectiveGraphs package =============")
 import multiobjectiveGraphs
 using multiobjectiveGraphs
 
-import Pkg ; Pkg.add("Test")
-
 import Test
 using Test
 
