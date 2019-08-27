@@ -7,6 +7,10 @@ using multiobjectiveGraphs
 import Test
 using Test
 =#
+
+import Base.Test
+using Base.Test 
+
 #=
 
 @testset "priority lists" begin
