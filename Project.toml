@@ -1,4 +1,7 @@
 name = "multiobjectiveGraphs"
-uuid = "4ca2b1b4-b505-11e9-3479-2971507377c3"
+uuid = "0b54ce73-1c92-4ebd-9a63-95104d042d48"
 authors = ["Didier ROBBES <didier.robbes@univ-nantes.fr>"]
 version = "0.1.0"
+
+[deps]
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"

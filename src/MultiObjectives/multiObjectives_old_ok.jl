@@ -2,19 +2,11 @@
  include("objectives.jl")
 
 #### for module multiobjectiveGraphs ####
-export  multiobj, Squares # , getObj, setObj!, summarize 
+export  multiobj # , getObj, setObj!, summarize 
 # export descr, defaultValue, mimic, combine # already in objectives.jl
 # export lexicoBetter, dominates, dominatesStrictly, objLength
 
-
-import Base.size, Base.length, Base.iterate # Julia 1+ , allow redefinition of theses functions
-
-
-struct Squares
-           count::Int
-end
-Base.iterate(S::Squares, state=1) = state > S.count ? nothing : (state*state, state+1)
-
+import Base.size, Base.length # Julia 1+ , allow redefinition of theses functions
 
 ##############################################################
 #################### generic type for multi-objective values     #########
@@ -105,11 +97,6 @@ mutable struct multiobj # <: genericMultiobj # Tobjval is union of all the Tobjv
 	end
 end
 
-######### iterate interface ##############
-#=
-Base.iterate(mo::multiobj) = 1 
-Base.iterate(mo::multiobj,state=1)= if state<1 or length(mo.objectives)<state  nothing  else (mo.objectives[state], state+1) end
-=#
 
 ######### accessor ##############
  function getObj( mo::multiobj, numobj::Integer ) 

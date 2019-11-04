@@ -12,6 +12,10 @@ export typeCode, defaultValue, mimic, compare, combine , descr
 abstract type genericWeightCategory end
 abstract type weightCategory{Tobjval} <: genericWeightCategory end
 
+###################  weight types supervisor #####################
+struct weightCategorySupervisor
+		
+end 
 
 ############################################################
 # each concrete weightCategory must implement
@@ -21,9 +25,9 @@ abstract type weightCategory{Tobjval} <: genericWeightCategory end
 # ... descr ... wich return the description of the objective type and value
 # 	... defaultValue ... wich returns the base value for combining.  ###### really needed  ?? -> change initializations !!! , a arbitary base value may suffice
 # 		e.g. 0 for sum, 1 for product
-# 	... mimic ... wich yields a new element similar to its first parameter with or without value (2 functions)
+# 	... mimic ... wich yields a new element similar to its first parameter with or without value (several functions)
 # 	... compare(a,b) ... whose result is a couple of booleans (a is better than b or equals b, b is better than a or equals a)
-#      compare a total order (especially  : forall (a,b) if a<=b & b<=a then a=b)
+#      compare must be a total order (especially  : forall (a,b) if a<=b & b<=a then a=b)
 # 	... combine ... to create a new weight from two such weights
 # 		that can be a sum, a product, a min, a max or anything
 # 		that is associative ( combine(x,combine(y,z)) == combine(combine(x,y),z) )
@@ -42,7 +46,7 @@ function objTypes( a::weightCategory{Tobjval} )  where  Tobjval
   				weightMaxSum{Tobjval}(),   		# --> 4
   				weightMaxProduct{Tobjval}(),   	# --> 5
   				weightMaxMin{Tobjval}()   			# --> 6
-  				]
+  			]
 end
 
 
@@ -298,5 +302,5 @@ end
 
 ############ unit tests ###################
 
-
+println("objectives loaded")
 ### TO DO #############

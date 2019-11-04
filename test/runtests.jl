@@ -1,10 +1,11 @@
 println("=========== testing multiobjectiveGraphs package =============")
 
-
+#=
 import multiobjectiveGraphs
 using multiobjectiveGraphs
+=#
 
-greet()
+greet() ### encore une fois ###
 
 #=
 import Pkg
@@ -13,8 +14,6 @@ import Test
 =#
 
 using Test
-
-
 
 #=
 
@@ -53,11 +52,11 @@ end
     multObj = multiobj(2,1,2, typeofvalues=Float32)
     
     @test string(typeof(multObj)) == "multiobj"
-    @test string(multObj) ==  "multiobj(5, genericWeightCategory[weightMinSum{Float32}(0.0), weightMinSum{Float32}(0.0), weightMinProduct{Float32}(1.0), weightMinMax{Float32}(0.0), weightMinMax{Float32}(0.0)])"
+    @test string(multObj) ==  "multiobj(5, genericWeightCategory[weightMinSum{Float32}(0.0f0), weightMinSum{Float32}(0.0f0), weightMinProduct{Float32}(1.0f0), weightMinMax{Float32}(0.0f0), weightMinMax{Float32}(0.0f0)])"
     @test descr(multiobj())=="[ min∑(0.0)]"
     @test descr(multiobj(multiobj()))=="[ min∑(0.0)]"
     @test descr(multiobj(5))=="[ min∑(0.0),min∑(0.0),min∑(0.0),min∑(0.0),min∑(0.0)]"
-    @test descr(multiobj(3,typeofobjectives=typeofweightMinSum{UInt8}(5)))=="[ min∑(0),min∑(0),min∑(0)]"
+    @test descr(multiobj(3,typeofobjectives=typeof(weightMinSum{UInt8}(5))))=="[ min∑(0),min∑(0),min∑(0)]"
 end
 
 #=
